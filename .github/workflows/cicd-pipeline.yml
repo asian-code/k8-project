@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: my CI/CD Pipeline
 
 on:
   push:
@@ -12,8 +12,8 @@ on:
 
 # Add environment variables
 env:
-  NODE_VERSION: '18'
-  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '23.5'
+  PYTHON_VERSION: '3.13'
   AWS_REGION: 'us-east-2'
   ECR_FRONTEND_REPO: 'react-frontend'
   ECR_BACKEND_REPO: 'django-backend'
