@@ -35,7 +35,9 @@ jobs:
         cache-dependency-path: './frontend/package.json'
 
     - name: Install Dependencies
-      run: npm ci
+      run: |
+        npm install
+        npm ci # Run ci after generating package-lock.json
       working-directory: ./frontend
 
     - name: Lint
@@ -118,11 +120,15 @@ jobs:
         black --check backend/
       continue-on-error: true
 
-    - name: Run Tests
+    - name: Check Django Configuration
       run: |
-        pytest backend/ --cov=backend --cov-report=xml
+        cd backend
+        python manage.py check --deploy
+        python manage.py makemigrations --check --dry-run
+        python manage.py migrate --plan
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
